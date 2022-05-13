@@ -235,29 +235,24 @@ void swap(int* a, int* b)
 }
 void selectionSort(int arr[], int n)
 {
-	int i, j, min_idx;
+	int j, mini;
 
-	// One by one move boundary of unsorted subarray 
-	for (i = 0; i < n - 1; i++)
+	for (int i = 0; i < n - 1; ++i)
 	{
-		// Find the minimum element in unsorted array 
-		min_idx = i;
+		mini = i;
 		for (j = i + 1; j < n; j++)
-			if (arr[j] < arr[min_idx])
-				min_idx = j;
-
-		// Swap the found minimum element with the first element 
-		swap(&arr[min_idx], &arr[i]);
+			if (arr[j] < arr[mini])
+				mini = j;
+		swap(&arr[mini], &arr[i]);
 	}
 }
 void insertionSort(int arr[], int n)
 {
-	int i, key, j;
-	for (i = 1; i < n; i++)
+	int key, j;
+	for (int i = 1; i < n; ++i)
 	{
 		key = arr[i];
 		j = i - 1;
-
 		while (j >= 0 && arr[j] > key)
 		{
 			arr[j + 1] = arr[j];
@@ -268,11 +263,8 @@ void insertionSort(int arr[], int n)
 }
 void bubbleSort(int arr[], int n)
 {
-	int i, j;
-	for (i = 0; i < n - 1; i++)
-
-		// Last i elements are already in place
-		for (j = 0; j < n - i - 1; j++)
+	for (int i = 0; i < n - 1; ++i)
+		for (int j = 0; j < n - i - 1; ++j)
 			if (arr[j] > arr[j + 1])
 				swap(&arr[j], &arr[j + 1]);
 }
@@ -293,13 +285,12 @@ void shellSort(int arr[], int n)
 void cocktailSort(int arr[], int n)
 {
 	bool swapped = true;
-	int start = 0;
-	int end = n - 1;
+	int start = 0, end = n - 1;
 
 	while (swapped)
 	{
 		swapped = false;
-		for (int i = start; i < end; ++i)
+		for (int i = start; i < end; i++)
 		{
 			if (arr[i] > arr[i + 1]) {
 				std::swap(arr[i], arr[i + 1]);
@@ -311,28 +302,25 @@ void cocktailSort(int arr[], int n)
 			break;
 
 		swapped = false;
-		--end;
+		end--;
 
-		for (int i = end - 1; i >= start; --i)
+		for (int i = end - 1; i >= start; i--)
 		{
 			if (arr[i] > arr[i + 1]) {
 				std::swap(arr[i], arr[i + 1]);
 				swapped = true;
 			}
 		}
-		++start;
+		start++;
 	}
 }
 void oddEvenSort(int arr[], int n)
 {
-	bool isSorted = false; // Initially array is unsorted
-
+	bool isSorted = false;
 	while (!isSorted)
 	{
 		isSorted = true;
-
-		// Perform Bubble sort on odd indexed element
-		for (int i = 1; i <= n - 2; i = i + 2)
+		for (int i = 1; i <= n - 2; i += 2)
 		{
 			if (arr[i] > arr[i + 1])
 			{
@@ -340,9 +328,7 @@ void oddEvenSort(int arr[], int n)
 				isSorted = false;
 			}
 		}
-
-		// Perform Bubble sort on even indexed element
-		for (int i = 0; i <= n - 2; i = i + 2)
+		for (int i = 0; i <= n - 2; i += 2)
 		{
 			if (arr[i] > arr[i + 1])
 			{
@@ -351,8 +337,6 @@ void oddEvenSort(int arr[], int n)
 			}
 		}
 	}
-
-	return;
 }
 void gnomeSort(int arr[], int n)
 {
@@ -360,46 +344,32 @@ void gnomeSort(int arr[], int n)
 
 	while (index < n) {
 		if (arr[index] >= arr[index - 1])
-			index++;
+			++index;
 		else {
 			std::swap(arr[index], arr[index - 1]);
-			index--;
+			++index;
 		}
 	}
-	return;
 }
 
 int getNextGap(int gap)
 {
-	// Shrink gap by Shrink factor
 	gap = (gap * 10) / 13;
-
 	if (gap < 1)
 		return 1;
 	return gap;
 }
 void combSort(int a[], int n)
 {
-	// Initialize gap
 	int gap = n;
-
-	// Initialize swapped as true to make sure that
-	// loop runs
 	bool swapped = true;
-
-	// Keep running while gap is more than 1 and last
-	// iteration caused a swap
+	
 	while (gap != 1 || swapped == true)
 	{
-		// Find next gap
 		gap = getNextGap(gap);
-
-		// Initialize swapped as false so that we can
-		// check if swap happened or not
 		swapped = false;
 
-		// Compare all elements with current gap
-		for (int i = 0; i < n - gap; i++)
+		for (int i = 0; i < n - gap; ++i)
 		{
 			if (a[i] > a[i + gap])
 			{
@@ -426,9 +396,9 @@ int binarySearch(int a[], int item, int low, int high)
 }
 void binInsertionSort(int a[], int n)
 {
-	int i, loc, j, k, selected;
+	int loc, j, k, selected;
 
-	for (i = 1; i < n; ++i) {
+	for (int i = 1; i < n; i++) {
 		j = i - 1;
 		selected = a[i];
 
@@ -436,7 +406,7 @@ void binInsertionSort(int a[], int n)
 
 		while (j >= loc) {
 			a[j + 1] = a[j];
-			j--;
+			--j;
 		}
 		a[j + 1] = selected;
 	}
@@ -445,32 +415,25 @@ void binInsertionSort(int a[], int n)
 int _findRandomPivot(int arr[], int start, int end)
 {
 	int n = end - start + 1;
-	// Selecting the random pivot index
 	int pivotInd = rand() % n;
 	std::swap(arr[end], arr[start + pivotInd]);
 	int pivot = arr[end];
-	//initialising pivoting point to start index
 	pivotInd = start;
 	for (int i = start; i < end; i++) {
 
-		// If an element is lesser than pivot, swap it.
 		if (arr[i] <= pivot) {
 			std::swap(arr[i], arr[pivotInd]);
 
-			// Incrementing pivotIndex for further
-			// swapping.
 			pivotInd++;
 		}
 	}
 
-	// Lastly swapping or the
-	// correct position of pivot
 	std::swap(arr[pivotInd], arr[end]);
 	return pivotInd;
 }
 int _partition(int arr[], int low, int high)
 {
-	int pivot = arr[high]; //pivot is last elem
+	int pivot = arr[high];
 	//int pivot = findRandomPivot(arr, low, high);
 	int i = (low - 1);
 
@@ -502,20 +465,14 @@ int partitionHoare(int arr[], int low, int high)
 	int i = low - 1, j = high + 1;
 
 	while (true) {
-
-		// Find leftmost element greater than
-		// or equal to pivot
 		do {
 			i++;
 		} while (arr[i] < pivot);
 
-		// Find rightmost element smaller than
-		// or equal to pivot
 		do {
 			j--;
 		} while (arr[j] > pivot);
 
-		// If two pointers met
 		if (i >= j)
 			return j;
 
@@ -526,7 +483,6 @@ int partition_rHoare(int arr[], int low, int high)
 {
 	int random = low + rand() % (high - low + 1);
 
-	// Swap A[random] with A[high]
 	std::swap(arr[random], arr[low]);
 
 	return partitionHoare(arr, low, high);
@@ -553,12 +509,8 @@ int partition_mHoare(int arr[], int low, int high)
 void quickSortHoare_r(int arr[], int low, int high)
 {
 	if (low < high) {
-		// pi is partitioning index,
-		// arr[p] is now at right place
 		int pi = partition_rHoare(arr, low, high);
 
-		// Separately sort elements before
-		// partition and after partition
 		quickSortHoare_r(arr, low, pi);
 		quickSortHoare_r(arr, pi + 1, high);
 	}
@@ -566,12 +518,8 @@ void quickSortHoare_r(int arr[], int low, int high)
 void quickSortHoare_m(int arr[], int low, int high)
 {
 	if (low < high) {
-		// pi is partitioning index,
-		// arr[p] is now at right place
 		int pi = partition_mHoare(arr, low, high);
 
-		// Separately sort elements before
-		// partition and after partition
 		quickSortHoare_m(arr, low, pi);
 		quickSortHoare_m(arr, pi + 1, high);
 	}
@@ -579,12 +527,8 @@ void quickSortHoare_m(int arr[], int low, int high)
 void quickSortHoare_f(int arr[], int low, int high)
 {
 	if (low < high) {
-		// pi is partitioning index,
-		// arr[p] is now at right place
 		int pi = partitionHoare(arr, low, high);
 
-		// Separately sort elements before
-		// partition and after partition
 		quickSortHoare_f(arr, low, pi);
 		quickSortHoare_f(arr, pi + 1, high);
 	}
@@ -592,16 +536,14 @@ void quickSortHoare_f(int arr[], int low, int high)
 
 int partitionLomuto(int arr[], int low, int high)
 {
-	int pivot = arr[high];    // pivot
-	int i = (low - 1);  // Index of smaller element
+	int pivot = arr[high];
+	int i = (low - 1);
 
 	for (int j = low; j <= high - 1; j++)
 	{
-		// If current element is smaller than or
-		// equal to pivot
 		if (arr[j] <= pivot)
 		{
-			i++;    // increment index of smaller element
+			i++;
 			std::swap(arr[i], arr[j]);
 		}
 	}
@@ -611,8 +553,6 @@ int partitionLomuto(int arr[], int low, int high)
 int partition_rLomuto(int arr[], int low, int high)
 {
 	int random = low + rand() % (high - low + 1);
-
-	// Swap A[random] with A[high]
 	std::swap(arr[random], arr[low]);
 
 	return partitionLomuto(arr, low, high);
@@ -634,12 +574,8 @@ void quickSortLomuto_r(int arr[], int low, int high)
 {
 	if (low < high)
 	{
-		/* pi is partitioning index, arr[p] is now
-		   at right place */
 		int pi = partition_rLomuto(arr, low, high);
 
-		// Separately sort elements before
-		// partition and after partition
 		quickSortLomuto_r(arr, low, pi - 1);
 		quickSortLomuto_r(arr, pi + 1, high);
 	}
@@ -648,12 +584,8 @@ void quickSortLomuto_m(int arr[], int low, int high)
 {
 	if (low < high)
 	{
-		/* pi is partitioning index, arr[p] is now
-		   at right place */
 		int pi = partition_mLomuto(arr, low, high);
 
-		// Separately sort elements before
-		// partition and after partition
 		quickSortLomuto_m(arr, low, pi - 1);
 		quickSortLomuto_m(arr, pi + 1, high);
 	}
@@ -662,12 +594,8 @@ void quickSortLomuto_f(int arr[], int low, int high)
 {
 	if (low < high)
 	{
-		/* pi is partitioning index, arr[p] is now
-		   at right place */
 		int pi = partitionLomuto(arr, low, high);
 
-		// Separately sort elements before
-		// partition and after partition
 		quickSortLomuto_f(arr, low, pi - 1);
 		quickSortLomuto_f(arr, pi + 1, high);
 	}
@@ -798,16 +726,10 @@ void iterativeMergeSort(int arr[], int n)
 
 	for (curr_size = 1; curr_size <= n - 1; curr_size = 2 * curr_size)
 	{
-		// Pick starting point of different subarrays of current size
 		for (left_start = 0; left_start < n - 1; left_start += 2 * curr_size)
 		{
-			// Find ending point of left subarray. mid+1 is starting
-			// point of right
 			int mid = std::min(left_start + curr_size - 1, n - 1);
-
 			int right_end = std::min(left_start + 2 * curr_size - 1, n - 1);
-
-			// Merge Subarrays arr[left_start...mid] & arr[mid+1...right_end]
 			merge(arr, left_start, mid, right_end);
 		}
 	}
@@ -819,38 +741,29 @@ void iterativeMergeSort(int arr[], int n)
 
 void heapify(int arr[], int n, int i)
 {
-	int largest = i; // Initialize largest as root
-	int l = 2 * i + 1; // left = 2*i + 1
-	int r = 2 * i + 2; // right = 2*i + 2
+	int largest = i;
+	int l = 2 * i + 1;
+	int r = 2 * i + 2;
 
-	// If left child is larger than root
 	if (l < n && arr[l] > arr[largest])
 		largest = l;
 
-	// If right child is larger than largest so far
 	if (r < n && arr[r] > arr[largest])
 		largest = r;
 
-	// If largest is not root
-	if (largest != i) {
+	if (largest != i) 
+	{
 		std::swap(arr[i], arr[largest]);
-
-		// Recursively heapify the affected sub-tree
 		heapify(arr, n, largest);
 	}
 }
 void heapSort(int arr[], int n)
 {
-	// Build heap (rearrange array)
 	for (int i = n / 2 - 1; i >= 0; i--)
 		heapify(arr, n, i);
-
-	// One by one extract an element from heap
-	for (int i = n - 1; i > 0; i--) {
-		// Move current root to end
+	for (int i = n - 1; i > 0; i--) 
+	{
 		std::swap(arr[0], arr[i]);
-
-		// call max heapify on the reduced heap
 		heapify(arr, i, 0);
 	}
 }
@@ -868,34 +781,24 @@ void countSort(int arr[], int n, int exp)
 {
 	int i, count[10] = { 0 };
 
-	// Store count of occurrences in count[]
 	for (i = 0; i < n; i++)
 		count[(arr[i] / exp) % 10]++;
 
-	// Change count[i] so that count[i] now contains actual
-	//  position of this digit in output[]
 	for (i = 1; i < 10; i++)
 		count[i] += count[i - 1];
 
-	// Build the output array
-	for (i = n - 1; i >= 0; i--) {
+	for (i = n - 1; i >= 0; i--) 
+	{
 		output[count[(arr[i] / exp) % 10] - 1] = arr[i];
 		count[(arr[i] / exp) % 10]--;
 	}
 
-	// Copy the output array to arr[], so that arr[] now
-	// contains sorted numbers according to current digit
 	for (i = 0; i < n; i++)
 		arr[i] = output[i];
 }
 void radixsort(int arr[], int n)
 {
-	// Find the maximum number to know number of digits
 	int m = getMax(arr, n);
-
-	// Do counting sort for every digit. Note that instead
-	// of passing digit number, exp is passed. exp is 10^i
-	// where i is current digit number
 	for (int exp = 1; m / exp > 0; exp *= 10)
 		countSort(arr, n, exp);
 }
@@ -977,23 +880,18 @@ void storeSorted(Node *root, int arr[], int &i)
 }
 Node* insert(Node* node, int key)
 {
-	/* If the tree is empty, return a new Node */
 	if (node == NULL) return newNode(key);
-
-	/* Otherwise, recur down the tree */
 	if (key < node->key)
 		node->left = insert(node->left, key);
 	else if (key > node->key)
 		node->right = insert(node->right, key);
 
-	/* return the (unchanged) Node pointer */
 	return node;
 }
 void treeSort(int arr[], int n)
 {
 	struct Node *root = NULL;
 
-	// Construct the BST
 	root = insert(root, arr[0]);
 	for (int i = 1; i < n; i++)
 		root = insert(root, arr[i]);
@@ -1056,23 +954,20 @@ void newSort2(int arr[], int low, int high, int depth)
 
 int partition(int arr[], int low, int high)
 {
-	//median-of-three approach
 	int elem = (low + high) / 2;
 	if ((arr[elem] > arr[high]) ^ (arr[elem] > arr[low]))
 		std::swap(arr[low], arr[elem]);
 	else if ((arr[high] < arr[elem]) ^ (arr[high] < arr[low]))
 		std::swap(arr[low], arr[high]);
 
-	//partitioning
 	int pivot = arr[low];
 	int i = low, j = high;
-	while (i < j) {
-
-		//find leftmost element greater than or equal to the pivot
+	while (i < j) 
+	{
+		
 		while (arr[i] < pivot)
 			++i;
 
-		//find rightmost element smaller than or equal to the pivot
 		while (arr[j] > pivot)
 			--j;
 
